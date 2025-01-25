@@ -1,2 +1,5 @@
 #No snooping around!
 .env
+
+#Compiled JS sources
+.js
