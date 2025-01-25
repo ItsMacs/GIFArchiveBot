@@ -2,4 +2,4 @@
 .env
 
 #Compiled JS sources
-.js
+*.js
