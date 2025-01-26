@@ -11,7 +11,25 @@ let gifID : string = "";
 let gifUniqueID : string = "";
 
 // Handle the /start command.
-bot.command("start", (ctx) => ctx.reply("NutellinoBot VIVE!"));
+bot.command("start", (ctx) => ctx.reply("GIFArchiverBot is WIP!\nCreate Repository: /createrepo <name>\nAdd GIF to Repository: /addgif <repo_name> <tag(s)>\nRemove GIF from Repository: /remgif <repo_name>"));
+
+bot.command("createrepo", ctx => {
+    ctx.reply(ctx.update.message?.text ?? "diocane");
+});
+
+bot.command("addgif", ctx => {
+    console.log(ctx.message);
+});
+
+bot.command("remgif", ctx => {
+    console.log(ctx.message);
+});
+
+bot.inlineQuery('query', async ctx => {
+    await ctx.answerInlineQuery([InlineQueryResultBuilder.gif(gifUniqueID, gifID, "")], { cache_time: 30 });
+});
+
+bot.catch(ctx => console.log("Error on message: " + ctx.message));
 
 // Handle other messages.
 bot.on("message", (ctx) => {
@@ -25,12 +43,6 @@ bot.on("message", (ctx) => {
     
     tgApi.sendAnimation(ctx.chatId, animation.file_id)
 });
-
-bot.inlineQuery('query', async ctx => {
-    await ctx.answerInlineQuery([InlineQueryResultBuilder.gif(gifUniqueID, gifID, "")], { cache_time: 30 });
-});
-
-bot.catch(ctx => console.log("Error on message: " + ctx.message));
 
 bot.start();
 

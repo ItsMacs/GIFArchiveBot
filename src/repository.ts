@@ -18,19 +18,25 @@ export class Repository{
 
         return undefined;
     }
+
+    saveToSQL(){
+        
+    }
 }
 
 export class GIF{
-    id: string;
+    file_unique_id: string;
+    file_id : string;
     tags: string[];
     
-    constructor(id: string, tags: string[] = []){
-        this.id = id;
+    constructor(file_unique_id: string, file_id : string, tags: string[] = []){
+        this.file_unique_id = file_unique_id;
+        this.file_id = file_id;
         this.tags = tags;
     }
 
-    static async Register(id: string, ) : Promise<GIF>{
-        return new GIF(id);
+    static async Register(file_unique_id: string, file_id: string) : Promise<GIF>{
+        return new GIF(file_unique_id, file_id);
     }
 
     hasTags(searchTags : string[]) : boolean {
@@ -39,5 +45,9 @@ export class GIF{
         }
 
         return false;
+    }
+
+    saveToSQL(){
+        
     }
 }
