@@ -1,0 +1,2 @@
+npx tsc src/main.ts --outfile bot.js 
+node bot.js

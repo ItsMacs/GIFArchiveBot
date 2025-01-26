@@ -1,6 +1,6 @@
-import { Bot, Api } from "grammy";
+import { Bot, Api, InlineQueryResultBuilder } from "grammy";
 import dotenv from "dotenv";
-import { stringify } from "querystring";
+import { Repository } from "./repository";
 
 dotenv.config();
 
@@ -8,11 +8,33 @@ const bot = new Bot(process.env.BOT_API_KEY);
 const tgApi = new Api(process.env.BOT_API_KEY);
 
 
+let gifID : string = "";
+let gifUniqueID : string = "";
+
 // Handle the /start command.
 bot.command("start", (ctx) => ctx.reply("NutellinoBot VIVE!"));
 
 // Handle other messages.
-bot.on("message", (ctx) => tgApi.sendAnimation(ctx.chatId, ctx.update.message.animation?.file_id ?? ""));
+bot.on("message", (ctx) => {
+    var msg = ctx.update.message;
+    var animation = msg.animation;
 
+    if(animation == undefined) return;
+    if(gifID == "") {
+        gifID = animation.file_id;
+        gifUniqueID = animation.file_unique_id;
+ 
+    }
+    
+    tgApi.sendAnimation(ctx.chatId, animation.file_id)
+});
+
+bot.inlineQuery('query', async ctx => {
+    await ctx.answerInlineQuery([InlineQueryResultBuilder.gif(gifUniqueID, gifID, "")], { cache_time: 30 });
+});
+
+var repo = new Repository("test");
+
+bot.catch(ctx => console.log("Error on message: " + ctx.message));
 
 bot.start();
